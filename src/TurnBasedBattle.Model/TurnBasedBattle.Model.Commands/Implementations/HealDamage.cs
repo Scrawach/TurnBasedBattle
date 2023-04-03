@@ -21,7 +21,7 @@ public sealed class HealDamage : BaseCommand
             return Fail();
 
         var health = Target.Get<Health>();
-        health.Value = Math.Max(health.Value + Power, health.Total);
+        health.Value = Math.Min(health.Value + Power, health.Total);
         return Success();
     }
 

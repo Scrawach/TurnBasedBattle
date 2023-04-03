@@ -23,11 +23,15 @@ namespace TurnBasedBattle.Model.Commands.Implementations
                 return Fail();
         
             var health = Target.Get<Health>();
-            health.Value = Math.Min(0, health.Value - Damage);
+            health.Value = Math.Max(0, health.Value - Damage);
+            
+            if (health.Value == 0)
+                Children.Add(new DieCommand(Target));
+            
             return Success();
         }
 
         public override string ToString() => 
-            $"{Target} takes {Damage} damage";
+            $"{Target} takes {Damage} damage. {Target.Get<Health>()}";
     }
 }
