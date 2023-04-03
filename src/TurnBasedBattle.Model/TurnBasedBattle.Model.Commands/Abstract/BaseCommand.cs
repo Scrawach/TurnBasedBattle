@@ -13,6 +13,7 @@ namespace TurnBasedBattle.Model.Commands.Abstract
     
         void ICommand.Execute()
         {
+            Children.Clear();
             Status = OnExecute();
         }
 
