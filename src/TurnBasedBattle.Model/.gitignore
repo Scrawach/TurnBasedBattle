@@ -4,3 +4,6 @@
 [Bb]in/
 [Oo]bj/
 [Pp]ackages/
+
+!*.csproj
+!*.sln
