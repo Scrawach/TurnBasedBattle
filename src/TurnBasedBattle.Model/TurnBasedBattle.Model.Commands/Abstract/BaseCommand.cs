@@ -1,21 +1,25 @@
-﻿namespace TurnBasedBattle.Model.Commands.Abstract;
+﻿
+using System.Collections.Generic;
 
-public abstract class BaseCommand : ICommand
+namespace TurnBasedBattle.Model.Commands.Abstract
 {
-    public CommandStatus Status { get; private set; }
-
-    protected List<ICommand> Children { get; } = new List<ICommand>();
-
-    IEnumerable<ICommand> ICommand.Children => Children;
-    
-    void ICommand.Execute()
+    public abstract class BaseCommand : ICommand
     {
-        Status = OnExecute();
-    }
+        public CommandStatus Status { get; private set; }
 
-    protected abstract CommandStatus OnExecute();
+        protected List<ICommand> Children { get; } = new List<ICommand>();
 
-    protected static CommandStatus Success() => CommandStatus.Success;
+        IEnumerable<ICommand> ICommand.Children => Children;
     
-    protected static CommandStatus Fail() => CommandStatus.Failed;
+        void ICommand.Execute()
+        {
+            Status = OnExecute();
+        }
+
+        protected abstract CommandStatus OnExecute();
+
+        protected static CommandStatus Success() => CommandStatus.Success;
+    
+        protected static CommandStatus Fail() => CommandStatus.Failed;
+    }
 }

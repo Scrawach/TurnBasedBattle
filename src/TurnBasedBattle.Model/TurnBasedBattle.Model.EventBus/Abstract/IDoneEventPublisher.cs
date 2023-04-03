@@ -1,6 +1,7 @@
-namespace TurnBasedBattle.Model.EventBus.Abstract;
-
-public interface IDoneEventPublisher<in TConstraint>
+namespace TurnBasedBattle.Model.EventBus.Abstract
 {
-    void Done<TEvent>(TEvent args) where TEvent : TConstraint;
+    public interface IDoneEventPublisher<in TConstraint>
+    {
+        void Done<TEvent>(TEvent args) where TEvent : TConstraint;
+    }
 }

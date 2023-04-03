@@ -1,8 +1,9 @@
-﻿namespace TurnBasedBattle.Model.Commands.Abstract;
-
-public enum CommandStatus
+﻿namespace TurnBasedBattle.Model.Commands.Abstract
 {
-    Unknown = 0,
-    Failed = 1,
-    Success = 2
+    public enum CommandStatus
+    {
+        Unknown = 0,
+        Failed = 1,
+        Success = 2
+    }
 }

@@ -1,8 +1,9 @@
 ﻿using TurnBasedBattle.Model.Core.Entities.Abstract;
 
-namespace TurnBasedBattle.Model.Core.Factory.Abstract;
-
-public interface IFactory
+namespace TurnBasedBattle.Model.Core.Factory.Abstract
 {
-    IEntity Create();
+    public interface IFactory
+    {
+        IEntity Create();
+    }
 }

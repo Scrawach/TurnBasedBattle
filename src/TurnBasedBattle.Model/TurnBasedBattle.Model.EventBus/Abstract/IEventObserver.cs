@@ -1,7 +1,8 @@
-namespace TurnBasedBattle.Model.EventBus.Abstract;
-
-public interface IEventObserver<in TConstraint>
+namespace TurnBasedBattle.Model.EventBus.Abstract
 {
-    void Subscribe<TEvent>(IEventListener<TEvent> listener) where TEvent : TConstraint;
-    void Unsubscribe<TEvent>(IEventListener<TEvent> listener) where TEvent : TConstraint;
+    public interface IEventObserver<in TConstraint>
+    {
+        void Subscribe<TEvent>(IEventListener<TEvent> listener) where TEvent : TConstraint;
+        void Unsubscribe<TEvent>(IEventListener<TEvent> listener) where TEvent : TConstraint;
+    }
 }

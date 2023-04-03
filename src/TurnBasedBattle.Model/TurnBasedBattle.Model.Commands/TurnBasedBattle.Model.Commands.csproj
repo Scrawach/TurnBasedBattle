@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <RootNamespace>TurnBasedBattle.Model.Commands</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TurnBasedBattle.Model.Core\TurnBasedBattle.Model.Core.csproj" />
+      <ProjectReference Include="..\TurnBasedBattle.Model.EventBus\TurnBasedBattle.Model.EventBus.csproj" />
+    </ItemGroup>
+
+</Project>

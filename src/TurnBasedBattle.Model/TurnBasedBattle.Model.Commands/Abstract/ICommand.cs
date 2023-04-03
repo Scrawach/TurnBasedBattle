@@ -1,8 +1,11 @@
-﻿namespace TurnBasedBattle.Model.Commands.Abstract;
+﻿using System.Collections.Generic;
 
-public interface ICommand
+namespace TurnBasedBattle.Model.Commands.Abstract
 {
-    CommandStatus Status { get; }
-    IEnumerable<ICommand> Children { get; }
-    void Execute();
+    public interface ICommand
+    {
+        CommandStatus Status { get; }
+        IEnumerable<ICommand> Children { get; }
+        void Execute();
+    }
 }

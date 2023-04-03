@@ -1,8 +1,9 @@
 ﻿using TurnBasedBattle.Model.Commands.Abstract;
 
-namespace TurnBasedBattle.Model.Commands.Services.Abstract;
-
-public interface ICommandExecutor
+namespace TurnBasedBattle.Model.Commands.Services.Abstract
 {
-    void Execute(ICommand command);
+    public interface ICommandExecutor
+    {
+        void Execute(ICommand command);
+    }
 }

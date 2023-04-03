@@ -1,9 +1,8 @@
-﻿using TurnBasedBattle.Model.Commands.Abstract;
+﻿using System;
+using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Extensions;
-
-namespace TurnBasedBattle.Model.Commands.Implementations;
 
 public sealed class HealDamage : BaseCommand
 {

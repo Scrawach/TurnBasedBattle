@@ -1,6 +1,7 @@
-﻿namespace TurnBasedBattle.Model.Core.Entities.Abstract;
-
-public interface IComponent
+﻿namespace TurnBasedBattle.Model.Core.Entities.Abstract
 {
+    public interface IComponent
+    {
     
+    }
 }
