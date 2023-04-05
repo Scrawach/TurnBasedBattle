@@ -12,5 +12,8 @@ namespace TurnBasedBattle.Model.Commands.Implementations
         
         protected override CommandStatus OnExecute() =>
             Success();
+
+        public override string ToString() =>
+            $"{Target} died";
     }
 }
