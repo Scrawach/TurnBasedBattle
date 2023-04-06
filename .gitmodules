@@ -1,0 +1,3 @@
+[submodule "src/TurnBasedBattle.Unity/Assets/CodeBase/Model/TurnBasedBattle.Model"]
+	path = src/TurnBasedBattle.Unity/Assets/CodeBase/Model/TurnBasedBattle.Model
+	url = https://github.com/Scrawach/TurnBasedBattle.Model.git
