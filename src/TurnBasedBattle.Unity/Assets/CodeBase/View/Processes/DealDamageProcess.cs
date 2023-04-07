@@ -2,12 +2,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using CodeBase.View.Attributes;
 using CodeBase.View.Characters.Services;
-using CodeBase.View.Processors.Abstract;
+using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.EventBus.Abstract;
 
-namespace CodeBase.View.Processors
+namespace CodeBase.View.Processes
 {
     [ViewProcess(typeof(DealDamage))]
     public class DealDamageProcess : ViewProcess, IStartEventListener<DealDamage>

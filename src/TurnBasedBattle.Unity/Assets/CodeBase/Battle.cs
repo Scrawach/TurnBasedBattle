@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CodeBase.DebugServices;
 using CodeBase.View.AssetManagement;
 using CodeBase.View.Characters.Services;
-using CodeBase.View.Processors.Services;
+using CodeBase.View.Processes.Services;
 using TurnBasedBattle.Model.Battle.Abstract;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.EventBus;

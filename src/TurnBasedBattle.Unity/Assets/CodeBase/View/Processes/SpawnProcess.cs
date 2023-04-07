@@ -4,13 +4,13 @@ using CodeBase.View.AssetManagement;
 using CodeBase.View.Attributes;
 using CodeBase.View.Characters;
 using CodeBase.View.Characters.Services;
-using CodeBase.View.Processors.Abstract;
+using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Battle.Commands;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.EventBus.Abstract;
 using UnityEngine;
 
-namespace CodeBase.View.Processors
+namespace CodeBase.View.Processes
 {
     [ViewProcess(typeof(Spawn))]
     public class SpawnProcess : ViewProcess, IStartEventListener<Spawn>

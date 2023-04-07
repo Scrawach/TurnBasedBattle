@@ -2,13 +2,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using CodeBase.View.Attributes;
 using CodeBase.View.Characters.Services;
-using CodeBase.View.Processors.Abstract;
+using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Battle.Commands;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
 
-namespace CodeBase.View.Processors
+namespace CodeBase.View.Processes
 {
     [ViewProcess(typeof(StartTurn))]
     public class StartTurnProcess : ViewProcess, IStartEventListener<StartTurn>

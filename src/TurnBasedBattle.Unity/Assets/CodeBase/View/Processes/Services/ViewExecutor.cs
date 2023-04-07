@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CodeBase.View.Processors.Abstract;
+using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
 
-namespace CodeBase.View.Processors.Services
+namespace CodeBase.View.Processes.Services
 {
     public class ViewExecutor : IViewExecutor, IDisposable
     {

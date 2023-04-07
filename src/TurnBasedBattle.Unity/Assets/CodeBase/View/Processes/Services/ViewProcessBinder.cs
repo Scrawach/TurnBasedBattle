@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CodeBase.View.Attributes;
-using CodeBase.View.Processors.Abstract;
+using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
 
-namespace CodeBase.View.Processors.Services
+namespace CodeBase.View.Processes.Services
 {
     public class ViewProcessBinder
     {
