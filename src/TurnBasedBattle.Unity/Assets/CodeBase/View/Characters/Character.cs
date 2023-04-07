@@ -36,8 +36,9 @@ namespace CodeBase.View.Characters
 
                 progress += Time.deltaTime / countOfSteps;
                 transform.position = Vector3.Lerp(startPosition, at, progress);
-                token.ThrowIfCancellationRequested();
+                
                 await Task.Yield();
+                token.ThrowIfCancellationRequested();
             }
             _animator.Play(AnimationHashes.IdleHash);
             await Task.Yield();
@@ -55,8 +56,8 @@ namespace CodeBase.View.Characters
             {
                 progress += Time.deltaTime * _rotationSpeed;
                 transform.rotation = Quaternion.Slerp(startRotation, targetRotation, progress);
-                token.ThrowIfCancellationRequested();
                 await Task.Yield();
+                token.ThrowIfCancellationRequested();
             }
         }
 

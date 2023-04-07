@@ -22,8 +22,8 @@ namespace CodeBase.View.UI
             {
                 progress += Time.deltaTime;
                 _bar.value = Mathf.Lerp(startValue, desiredValue, progress / timeInSeconds);
-                token.ThrowIfCancellationRequested();
                 await Task.Yield();
+                token.ThrowIfCancellationRequested();
             }
         }
     }

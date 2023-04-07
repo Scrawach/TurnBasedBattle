@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using CodeBase.DebugServices;
 using CodeBase.View.AssetManagement;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace CodeBase
 {
-    public class Battle : IView
+    public class Battle : IView, IDisposable
     {
         private ViewExecutor _executor;
             
@@ -37,5 +38,8 @@ namespace CodeBase
             await _executor.Execute();
             await Task.Delay(100);
         }
+
+        public void Dispose() =>
+            _executor?.Dispose();
     }
 }
