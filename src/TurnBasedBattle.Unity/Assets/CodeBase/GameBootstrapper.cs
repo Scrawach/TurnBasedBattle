@@ -1,16 +1,13 @@
-﻿using System;
-using TurnBasedBattle.Model.Commands.Abstract;
-using TurnBasedBattle.Model.EventBus;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CodeBase
 {
     public class GameBootstrapper : MonoBehaviour
     {
-        private void Start()
+        private async void Start()
         {
-            var bus = new EventBus<ICommand>();
-            
+            var battle = new Battle();
+            await battle.Process();
         }
     }
 }
