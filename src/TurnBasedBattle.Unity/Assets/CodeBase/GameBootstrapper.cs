@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace CodeBase
 {
@@ -13,10 +12,7 @@ namespace CodeBase
             await _battle.Process();
         }
 
-        private void OnDestroy()
-        {
-            Debug.Log("DESTORY");
+        private void OnDestroy() =>
             _battle.Dispose();
-        }
     }
 }
