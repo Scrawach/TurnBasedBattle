@@ -13,13 +13,13 @@ namespace CodeBase.View.Processes.Services
         private readonly IEventBus<ICommand> _bus;
         private readonly IViewProcess[] _processes;
         
-        private readonly Queue<Func<CancellationToken, Task>> _queueOfProcesses;
+        private readonly Queue<ViewRequest> _queueOfProcesses;
         private readonly CancellationTokenSource _source = new CancellationTokenSource();
 
         public ViewExecutor(params IViewProcess[] processes)
         {
             _processes = processes;
-            _queueOfProcesses = new Queue<Func<CancellationToken, Task>>();
+            _queueOfProcesses = new Queue<ViewRequest>();
         }
 
         public void Subscribe()
@@ -38,7 +38,7 @@ namespace CodeBase.View.Processes.Services
             }
         }
 
-        private void AddProcessInQueue(Func<CancellationToken, Task> process) =>
+        private void AddProcessInQueue(ViewRequest process) =>
             _queueOfProcesses.Enqueue(process);
 
         public async Task Execute()
