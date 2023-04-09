@@ -5,7 +5,10 @@ using CodeBase.View.AssetManagement;
 using CodeBase.View.Characters.Services;
 using CodeBase.View.Processes.Services;
 using TurnBasedBattle.Model.Battle.Abstract;
+using TurnBasedBattle.Model.Battle.Services;
 using TurnBasedBattle.Model.Commands.Abstract;
+using TurnBasedBattle.Model.Commands.Services;
+using TurnBasedBattle.Model.Core.Services.Characters;
 using TurnBasedBattle.Model.EventBus;
 using UnityEngine;
 
@@ -21,11 +24,15 @@ namespace CodeBase
             var assets = new Assets();
             var gameObjects = new GameObjectProvider();
             var viewProcessBinder = new ViewProcessBinder(eventBus, gameObjects, assets);
+
+            var characters = new CharacterRegistry();
+            var mechanics = new CoreMechanics(characters);
+            var executor = new CommandExecutor(eventBus, mechanics);
             
             viewProcessBinder.BindAll();
             _executor = viewProcessBinder.Executor();
             
-            var turnBasedBattle = new TurnBasedBattle.Model.Battle.TurnBasedBattle(eventBus, this);
+            var turnBasedBattle = new TurnBasedBattle.Model.Battle.TurnBasedBattle(executor, mechanics, this);
             await turnBasedBattle.Process();
             
             viewProcessBinder.UnbindAll();
