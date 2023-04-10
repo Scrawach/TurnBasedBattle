@@ -51,22 +51,25 @@ namespace CodeBase.View.Processes
             enemyView.RotateAsync(fromEnemyToPlayer, token);
             
             var playerView = _gameObjects[player.ToString()];
-            var cameraMoving = MoveCamera(playerPoint, 6f, token);
+            var cameraMoving = MoveCamera(playerPoint, 4f, token);
             await playerView.MoveAsync(playerPoint, 0f, token);
             await cameraMoving;
         }
 
-        private static async Task MoveCamera(Vector3 viewPoint, float durationInSeconds, CancellationToken token = default)
+        private static async Task MoveCamera(Vector3 viewPoint, float speed, CancellationToken token = default)
         {
             var camera = Camera.main;
             var startPosition = camera.transform.position;
             var targetPosition = new Vector3(startPosition.x, startPosition.y, viewPoint.z);
+            var distance = Vector3.Distance(startPosition, targetPosition);
+            var countOfSteps = distance / speed;
             var progress = 0f;
-
-            while (progress < durationInSeconds)
+            
+            while (progress < 1f)
             {
-                progress += Time.deltaTime;
-                camera.transform.position = Vector3.Lerp(startPosition, targetPosition, progress / durationInSeconds);
+                progress += Time.deltaTime / countOfSteps;
+                camera.transform.position = Vector3.Lerp(startPosition, targetPosition, progress);
+                
                 await Task.Yield();
                 token.ThrowIfCancellationRequested();
             }
