@@ -16,7 +16,7 @@ namespace CodeBase
 {
     public class Battle : IView, IDisposable
     {
-        private ViewExecutor _executor;
+        private ViewExecutor _viewExecutor;
             
         public async Task Process()
         {
@@ -30,7 +30,7 @@ namespace CodeBase
             var executor = new CommandExecutor(eventBus, mechanics);
             
             viewProcessBinder.BindAll();
-            _executor = viewProcessBinder.Executor();
+            _viewExecutor = viewProcessBinder.Executor();
             
             var turnBasedBattle = new TurnBasedBattle.Model.Battle.TurnBasedBattle(executor, mechanics, this);
             await turnBasedBattle.Process();
@@ -42,11 +42,11 @@ namespace CodeBase
 
         public async Task Update()
         {
-            await _executor.Execute();
+            await _viewExecutor.Execute();
             await Task.Delay(100);
         }
 
         public void Dispose() =>
-            _executor?.Dispose();
+            _viewExecutor?.Dispose();
     }
 }
