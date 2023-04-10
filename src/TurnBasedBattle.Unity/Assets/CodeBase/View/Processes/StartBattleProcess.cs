@@ -6,6 +6,7 @@ using CodeBase.View.Characters.Services;
 using CodeBase.View.Environment;
 using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Battle.Commands;
+using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
 using UnityEngine;
@@ -18,6 +19,8 @@ namespace CodeBase.View.Processes
         private readonly ICharacterProvider _characters;
         private readonly IGameObjectProvider _gameObjects;
         private readonly IArenaFactory _arenaFactory;
+
+        private IEntity _previousEnemyEntity;
 
         public StartBattleProcess(ICharacterProvider characters, IArenaFactory arenaFactory, IGameObjectProvider gameObjects)
         {
@@ -54,6 +57,10 @@ namespace CodeBase.View.Processes
             var cameraMoving = MoveCamera(playerPoint, 4f, token);
             await playerView.MoveAsync(playerPoint, 0f, token);
             await cameraMoving;
+
+            if (_previousEnemyEntity != null) 
+                DestroyCharacterView();
+            _previousEnemyEntity = enemy;
         }
 
         private static async Task MoveCamera(Vector3 viewPoint, float speed, CancellationToken token = default)
@@ -75,6 +82,14 @@ namespace CodeBase.View.Processes
             }
 
             camera.transform.position = targetPosition;
+        }
+
+        private void DestroyCharacterView()
+        {
+            var deadId = _previousEnemyEntity.ToString();
+            var view = _gameObjects[deadId];
+            _gameObjects.Remove(deadId);
+            Object.Destroy(view.gameObject);
         }
     }
 }
