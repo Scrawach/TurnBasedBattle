@@ -29,7 +29,7 @@ namespace CodeBase.DebugServices
 
         public void Start<TEvent>(TEvent args) where TEvent : ICommand
         {
-            _logger.Log($"[Event bus][Start] publish: {args} ({args.Status})");
+            _logger.Log($"[Event bus][Start] publish: {args}");
             _origin.Start(args);
         }
 
