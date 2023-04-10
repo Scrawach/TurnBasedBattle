@@ -19,9 +19,6 @@ namespace CodeBase.View.Processes
         
         private readonly IGameObjectProvider _gameObjects;
         private readonly IAssets _assets;
-        
-        private Vector3 _playerSpawnPoint = new Vector3(-4, 0, 0);
-        private Vector3 _enemySpawnPoint = new Vector3(4, 0, 0);
 
         public SpawnProcess(IGameObjectProvider gameObjects, IAssets assets)
         {
@@ -36,17 +33,11 @@ namespace CodeBase.View.Processes
         {
             var heroEntity = spawn.Spawned;
             var heroId = heroEntity.ToString();
-            var (spawnPoint, direction) = SpawnData(heroEntity.Get<TeamMarker>().TeamId);
             var gameObject = _assets.Instantiate<Character>(PrefabPath);
-                
             _gameObjects[heroId] = gameObject;
-            _gameObjects[heroId].transform.position = spawnPoint;
-            _gameObjects[heroId].transform.rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
-        }
 
-        private (Vector3 point, Vector3 direction) SpawnData(int teamId) =>
-            teamId == 0
-                ? (_playerSpawnPoint, _enemySpawnPoint - _playerSpawnPoint) 
-                : (_enemySpawnPoint, _playerSpawnPoint - _enemySpawnPoint);
+            if (heroEntity.Get<TeamMarker>().TeamId == 0) 
+                _gameObjects[heroId].transform.position -= new Vector3(0, 0, 20);
+        }
     }
 }

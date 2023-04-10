@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CodeBase.DebugServices;
 using CodeBase.View.AssetManagement;
 using CodeBase.View.Characters.Services;
+using CodeBase.View.Environment;
 using CodeBase.View.Processes.Services;
 using TurnBasedBattle.Model.Battle.Abstract;
 using TurnBasedBattle.Model.Battle.Services;
@@ -21,11 +22,12 @@ namespace CodeBase
         public async Task Process()
         {
             var eventBus = new DebugEventBus(new EventBus<ICommand>(), Debug.unityLogger);
+            var characters = new CharacterRegistry();
+            
             var assets = new Assets();
             var gameObjects = new GameObjectProvider();
-            var viewProcessBinder = new ViewProcessBinder(eventBus, gameObjects, assets);
+            var viewProcessBinder = new ViewProcessBinder(eventBus, gameObjects, assets, characters, new ArenaFactory(assets));
 
-            var characters = new CharacterRegistry();
             var mechanics = new CoreMechanics(characters);
             var executor = new CommandExecutor(eventBus, mechanics);
             
