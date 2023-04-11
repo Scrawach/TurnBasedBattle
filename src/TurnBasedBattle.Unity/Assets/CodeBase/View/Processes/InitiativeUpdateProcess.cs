@@ -45,7 +45,7 @@ namespace CodeBase.View.Processes
         private async Task Updating(string entityId, int current, int total, CancellationToken token)
         {
             var view = _gameObjects[entityId];
-            await view.InitiativeBar.Show(current, total, 1f, token);
+            await view.InitiativeBar.UpdateValue(current, total, 1f, token);
         }
     }
 }

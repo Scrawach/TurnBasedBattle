@@ -1,23 +1,16 @@
 using System.Threading;
 using System.Threading.Tasks;
+using CodeBase.View.UI.Abstract;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CodeBase.View.UI
 {
-    public class InitiativeBar : MonoBehaviour
+    public class AsyncSlider : AsyncViewValue
     {
         [SerializeField] private Slider _bar;
         
-        public Task Current { get; private set; }
-
-        public async Task Show(int value, int total, float timeInSeconds, CancellationToken token = default)
-        {
-            Current = Updating(value, total, timeInSeconds, token);
-            await Current;
-        }
-
-        private async Task Updating(int value, int total, float timeInSeconds, CancellationToken token = default)
+        protected override async Task Updating(int value, int total, float timeInSeconds, CancellationToken token = default)
         {
             var startValue = _bar.value;
             var desiredValue = (float) value / total;
@@ -31,8 +24,5 @@ namespace CodeBase.View.UI
                 token.ThrowIfCancellationRequested();
             }
         }
-
-        public void Hide() =>
-            _bar.gameObject.SetActive(false);
     }
 }

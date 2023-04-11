@@ -1,20 +1,19 @@
 using System.Threading;
 using System.Threading.Tasks;
+using CodeBase.View.UI.Abstract;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CodeBase.View.UI
 {
-    public class HealthBar : MonoBehaviour
+    public class StatBar : AsyncViewValue
     {
         [SerializeField] private Slider _bar;
-        [SerializeField] private TextMeshProUGUI _healthValue;
+        [SerializeField] private TextMeshProUGUI _label;
 
-        public async Task Show(int value, int total, float time, CancellationToken token = default) =>
-            await Updating(value, total, time, token);
-        
-        private async Task Updating(int value, int total, float timeInSeconds, CancellationToken token = default)
+        protected override async Task Updating(int value, int total, float timeInSeconds, CancellationToken token = default)
         {
             var startValue = _bar.value;
             var desiredValue = (float) value / total;
@@ -31,15 +30,12 @@ namespace CodeBase.View.UI
                 if (step != currentValue)
                 {
                     currentValue = step;
-                    _healthValue.text = $"{currentValue} / {total}";
+                    _label.text = $"{currentValue} / {total}";
                 }
 
                 await Task.Yield();
                 token.ThrowIfCancellationRequested();
             }
         }
-
-        public void Hide() =>
-            _bar.gameObject.SetActive(false);
     }
 }

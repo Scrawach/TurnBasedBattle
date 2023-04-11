@@ -29,7 +29,7 @@ namespace CodeBase.View.Processes
         private async Task HealAsync(string id, int currentHealth, int totalHealth, CancellationToken token = default)
         {
             var defender = _gameObjects[id];
-            await defender.HealthBar.Show(currentHealth, totalHealth, 1.0f, token);
+            await defender.HealthBar.UpdateValue(currentHealth, totalHealth, 1.0f, token);
         }
     }
 }

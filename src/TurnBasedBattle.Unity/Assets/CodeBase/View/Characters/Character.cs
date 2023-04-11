@@ -1,7 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CodeBase.View.UI;
+using CodeBase.View.UI.Abstract;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace CodeBase.View.Characters
@@ -12,12 +14,11 @@ namespace CodeBase.View.Characters
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _rotationSpeed;
 
-        [SerializeField] private HealthBar _healthBar;
-        [SerializeField] private InitiativeBar _initiativeBar;
-
-        public InitiativeBar InitiativeBar => _initiativeBar;
-
-        public HealthBar HealthBar => _healthBar;
+        [field: SerializeField] 
+        public AsyncViewValue HealthBar { get; private set; }
+        
+        [field: SerializeField]
+        public AsyncViewValue InitiativeBar { get; private set; }
 
         public async Task MoveAsync(Vector3 at, float stoppingDistance, CancellationToken token = default)
         {
@@ -91,12 +92,6 @@ namespace CodeBase.View.Characters
         {
             await Task.Delay((int) (_animator.GetCurrentStateInfo().length * 1000 - 250), token);
             _animator.Play(AnimationHashes.IdleHash);
-        }
-
-        public void HideUI()
-        {
-            InitiativeBar.Hide();
-            HealthBar.Hide();
         }
     }
 }

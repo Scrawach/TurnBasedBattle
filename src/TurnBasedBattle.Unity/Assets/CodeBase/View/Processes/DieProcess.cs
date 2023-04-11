@@ -23,7 +23,8 @@ namespace CodeBase.View.Processes
         {
             var gameObject = _gameObject[id];
             await gameObject.DieAsync(token);
-            gameObject.HideUI();
+            gameObject.HealthBar.Hide();
+            gameObject.InitiativeBar.Hide();
         }
     }
 }
