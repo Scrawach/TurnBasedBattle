@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CodeBase.View.Attributes;
 using CodeBase.View.Characters.Services;
+using CodeBase.View.Factory;
 using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Core.Components;
@@ -13,10 +14,14 @@ namespace CodeBase.View.Processes
     public class DealDamageProcess : ViewProcess, IStartEventListener<DealDamage>
     {
         private readonly IGameObjectProvider _gameObjects;
+        private readonly IUIFactory _uiFactory;
 
-        public DealDamageProcess(IGameObjectProvider gameObjects) =>
+        public DealDamageProcess(IGameObjectProvider gameObjects, IUIFactory uiFactory)
+        {
             _gameObjects = gameObjects;
-        
+            _uiFactory = uiFactory;
+        }
+
         public void OnStart(DealDamage damage)
         {
             var health = damage.Target.Get<Health>();
@@ -24,12 +29,13 @@ namespace CodeBase.View.Processes
             var total = health.Total;
             var id = damage.Target.Get<UniqueId>().ToString();
             
-            Process(token => DealDamageAsync(id, current, total, token));
+            Process(token => DealDamageAsync(id, damage.Damage, current, total, token));
         }
 
-        private async Task DealDamageAsync(string id, int current, int total, CancellationToken token = default)
+        private async Task DealDamageAsync(string id, int damage, int current, int total, CancellationToken token = default)
         {
             var defender = _gameObjects[id];
+            _uiFactory.CreateDamageBubble(defender.transform.position, damage);
 
             if (current != 0)
             {

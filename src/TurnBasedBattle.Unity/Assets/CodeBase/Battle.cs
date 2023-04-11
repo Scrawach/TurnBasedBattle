@@ -4,6 +4,7 @@ using CodeBase.DebugServices;
 using CodeBase.View.AssetManagement;
 using CodeBase.View.Characters.Services;
 using CodeBase.View.Environment;
+using CodeBase.View.Factory;
 using CodeBase.View.Processes.Services;
 using TurnBasedBattle.Model.Battle.Abstract;
 using TurnBasedBattle.Model.Battle.Services;
@@ -26,7 +27,10 @@ namespace CodeBase
             
             var assets = new Assets();
             var gameObjects = new GameObjectProvider();
-            var viewProcessBinder = new ViewProcessBinder(eventBus, gameObjects, assets, characters, new ArenaFactory(assets));
+            var factory = new GameFactory(assets, gameObjects);
+            var uiFactory = new UIFactory(assets);
+            var viewProcessBinder = new ViewProcessBinder(eventBus, gameObjects, factory, 
+                uiFactory, characters, new ArenaFactory(assets));
 
             var mechanics = new CoreMechanics(characters);
             var executor = new CommandExecutor(eventBus, mechanics);
@@ -39,7 +43,7 @@ namespace CodeBase
             
             viewProcessBinder.UnbindAll();
             
-            Debug.Log("Simulation is over!");
+            Debug.Log("Battle is over!");
         }
 
         public async Task Update() =>
