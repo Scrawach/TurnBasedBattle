@@ -33,12 +33,12 @@ namespace CodeBase.View.Processes
 
             if (current != 0)
             {
-                defender.SetHealthBarAsync(current, total, 1.0f, token);
+                defender.HealthBar.Show(current, total, 1.0f, token);
                 await defender.HitAsync(token);
             }
             else
             {
-                defender.SetHealthBarAsync(current, total, 0.5f, token);
+                defender.HealthBar.Show(current, total, 0.5f, token);
             }
         }
     }

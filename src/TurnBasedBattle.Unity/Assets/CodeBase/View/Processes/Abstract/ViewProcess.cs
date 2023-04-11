@@ -1,6 +1,4 @@
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CodeBase.View.Processes.Abstract
 {
@@ -8,7 +6,7 @@ namespace CodeBase.View.Processes.Abstract
     {
         public event Action<ViewRequest> ProcessPrepared;
 
-        protected void Process(ViewRequest request) =>
-            ProcessPrepared?.Invoke(request);
+        protected void Process(ViewRequestDelegate request, bool isBlocking = true) =>
+            ProcessPrepared?.Invoke(new ViewRequest(request, isBlocking));
     }
 }

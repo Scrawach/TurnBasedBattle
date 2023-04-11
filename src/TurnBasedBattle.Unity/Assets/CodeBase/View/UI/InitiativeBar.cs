@@ -8,9 +8,14 @@ namespace CodeBase.View.UI
     public class InitiativeBar : MonoBehaviour
     {
         [SerializeField] private Slider _bar;
+        
+        public Task Current { get; private set; }
 
-        public async Task Show(int value, int total, float timeInSeconds, CancellationToken token = default) =>
-            await Updating(value, total, timeInSeconds, token);
+        public async Task Show(int value, int total, float timeInSeconds, CancellationToken token = default)
+        {
+            Current = Updating(value, total, timeInSeconds, token);
+            await Current;
+        }
 
         private async Task Updating(int value, int total, float timeInSeconds, CancellationToken token = default)
         {
@@ -26,5 +31,8 @@ namespace CodeBase.View.UI
                 token.ThrowIfCancellationRequested();
             }
         }
+
+        public void Hide() =>
+            _bar.gameObject.SetActive(false);
     }
 }

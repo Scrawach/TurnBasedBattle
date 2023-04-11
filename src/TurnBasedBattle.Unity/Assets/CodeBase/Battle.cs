@@ -42,11 +42,8 @@ namespace CodeBase
             Debug.Log("Simulation is over!");
         }
 
-        public async Task Update()
-        {
+        public async Task Update() =>
             await _viewExecutor.Execute();
-            await Task.Delay(100);
-        }
 
         public void Dispose() =>
             _viewExecutor?.Dispose();

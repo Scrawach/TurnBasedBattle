@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
+using UnityEngine;
 
 namespace CodeBase.View.Processes.Services
 {
@@ -43,11 +44,19 @@ namespace CodeBase.View.Processes.Services
 
         public async Task Execute()
         {
+            var processes = new List<Task>();
+            
             while (_queueOfProcesses.Count > 0)
             {
                 var command = _queueOfProcesses.Dequeue();
-                await command.Invoke(_source.Token);
+                var task = command.Invoke(_source.Token);
+                processes.Add(task);
+                
+                if (command.IsBlocking)
+                    await task;
             }
+
+            await Task.WhenAll(processes);
         }
 
         public void Dispose()

@@ -38,5 +38,8 @@ namespace CodeBase.View.UI
                 token.ThrowIfCancellationRequested();
             }
         }
+
+        public void Hide() =>
+            _bar.gameObject.SetActive(false);
     }
 }

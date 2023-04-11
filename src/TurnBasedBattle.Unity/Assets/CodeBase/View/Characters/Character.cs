@@ -14,12 +14,10 @@ namespace CodeBase.View.Characters
 
         [SerializeField] private HealthBar _healthBar;
         [SerializeField] private InitiativeBar _initiativeBar;
-        
-        public async Task SetHealthBarAsync(int value, int total, float timeInSeconds, CancellationToken token = default) =>
-            await _healthBar.Show(value, total, timeInSeconds, token);
 
-        public async Task SetInitiativeBarAsync(int resultInitiative, int total, float timeInSeconds, CancellationToken token = default) =>
-            await _initiativeBar.Show(resultInitiative, total, timeInSeconds, token);
+        public InitiativeBar InitiativeBar => _initiativeBar;
+
+        public HealthBar HealthBar => _healthBar;
 
         public async Task MoveAsync(Vector3 at, float stoppingDistance, CancellationToken token = default)
         {
@@ -93,6 +91,12 @@ namespace CodeBase.View.Characters
         {
             await Task.Delay((int) (_animator.GetCurrentStateInfo().length * 1000 - 250), token);
             _animator.Play(AnimationHashes.IdleHash);
+        }
+
+        public void HideUI()
+        {
+            InitiativeBar.Hide();
+            HealthBar.Hide();
         }
     }
 }
