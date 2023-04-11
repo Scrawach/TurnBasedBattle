@@ -15,7 +15,7 @@ namespace CodeBase.View.Factory
             CreateBubbleText(at, $"-{damage}", Color.red);
 
         public BubbleText CreateHealBubble(Vector3 at, int heal) =>
-            CreateBubbleText(at, heal.ToString(), Color.green);
+            CreateBubbleText(at, $"+{heal}", Color.green);
 
         private BubbleText CreateBubbleText(Vector3 at, string content, Color color)
         {
