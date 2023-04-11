@@ -2,7 +2,7 @@ using System;
 
 namespace CodeBase.View.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ViewProcessAttribute: Attribute
     {
         public ViewProcessAttribute(Type type) =>
