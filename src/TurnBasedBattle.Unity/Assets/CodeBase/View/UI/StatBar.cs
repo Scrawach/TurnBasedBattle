@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using CodeBase.View.UI.Abstract;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace CodeBase.View.UI
