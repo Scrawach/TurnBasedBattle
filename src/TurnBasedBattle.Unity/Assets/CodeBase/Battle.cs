@@ -30,7 +30,7 @@ namespace CodeBase
             var factory = new GameFactory(assets, gameObjects);
             var uiFactory = new UIFactory(assets);
             var viewProcessBinder = new ViewProcessBinder(eventBus, gameObjects, factory, 
-                uiFactory, characters, new ArenaFactory(assets));
+                uiFactory, new ArenaFactory(assets));
 
             var mechanics = new CoreMechanics(characters);
             var executor = new CommandExecutor(eventBus, mechanics);
