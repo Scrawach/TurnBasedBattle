@@ -49,7 +49,7 @@ namespace CodeBase.View.Processes
                 return;
             
             await attacker.RotateAsync(to: startPosition, token);
-            await attacker.MoveAsync(at: startPosition, 0, token);
+            await attacker.MoveAsync(at: startPosition, token);
             await attacker.RotateAsync(to: defender.transform.position, token);
         }
         

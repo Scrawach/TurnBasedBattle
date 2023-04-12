@@ -1,9 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
-using CodeBase.View.UI;
+using CodeBase.View.Characters.Components;
 using CodeBase.View.UI.Abstract;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace CodeBase.View.Characters
@@ -11,8 +10,8 @@ namespace CodeBase.View.Characters
     public class Character : MonoBehaviour
     {
         [SerializeField] private CharacterAnimator _animator;
-        [SerializeField] private float _moveSpeed;
-        [SerializeField] private float _rotationSpeed;
+        [SerializeField] private AsyncMover _mover;
+        [SerializeField] private AsyncRotator _rotator;
 
         [field: SerializeField] 
         public AsyncViewValue HealthBar { get; private set; }
@@ -20,45 +19,19 @@ namespace CodeBase.View.Characters
         [field: SerializeField]
         public AsyncViewValue InitiativeBar { get; private set; }
 
+        public async Task MoveAsync(Vector3 at, CancellationToken token = default) =>
+            await MoveAsync(at, 0f, token);
+        
         public async Task MoveAsync(Vector3 at, float stoppingDistance, CancellationToken token = default)
         {
-            var startPosition = transform.position;
-            var distance = Vector3.Distance(startPosition, at);
-            var countOfSteps = distance / _moveSpeed;
-            var progress = 0f;
-            
             _animator.Play(AnimationHashes.RunHash);
-            while (progress < 1f)
-            {
-                if (Vector3.Distance(transform.position, at) <= stoppingDistance) 
-                    break;
-
-                progress += Time.deltaTime / countOfSteps;
-                transform.position = Vector3.Lerp(startPosition, at, progress);
-                
-                await Task.Yield();
-                token.ThrowIfCancellationRequested();
-            }
+            await _mover.MoveAsync(at, stoppingDistance, token);
             _animator.Play(AnimationHashes.IdleHash);
             await Task.Yield();
         }
 
-        public async Task RotateAsync(Vector3 to, CancellationToken token = default)
-        {
-            var selfTransform = transform;
-            var direction = to - selfTransform.position;
-            var startRotation = selfTransform.rotation;
-            var targetRotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
-            var progress = 0f;
-
-            while (progress < 1f)
-            {
-                progress += Time.deltaTime * _rotationSpeed;
-                transform.rotation = Quaternion.Slerp(startRotation, targetRotation, progress);
-                await Task.Yield();
-                token.ThrowIfCancellationRequested();
-            }
-        }
+        public async Task RotateAsync(Vector3 to, CancellationToken token = default) =>
+            await _rotator.RotateAsync(to, token);
 
         public async Task AttackAsync(CancellationToken token = default)
         {

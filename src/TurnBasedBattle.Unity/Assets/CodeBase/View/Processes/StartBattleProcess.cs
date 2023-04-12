@@ -56,7 +56,7 @@ namespace CodeBase.View.Processes
             
             var playerView = _gameObjects[player.ToString()];
             var cameraMoving = MoveCamera(playerPoint, 4f, token);
-            await playerView.MoveAsync(playerPoint, 0f, token);
+            await playerView.MoveAsync(playerPoint, token);
             await cameraMoving;
 
             if (_previousEnemyEntity != null) 
