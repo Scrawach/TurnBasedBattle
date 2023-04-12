@@ -25,7 +25,7 @@ namespace CodeBase.View.Processes
         {
             var heroEntity = spawn.Spawned;
             var gameObject = _factory.CreateKnightFrom(heroEntity);
-            if (heroEntity.Get<TeamMarker>().TeamId == 0) 
+            if (heroEntity.Get<TeamMarker>().Team == 0) 
                 gameObject.transform.position -= new Vector3(0, 0, 20);
         }
     }

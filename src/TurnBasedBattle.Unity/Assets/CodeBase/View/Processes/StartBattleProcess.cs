@@ -6,6 +6,7 @@ using CodeBase.View.Characters.Services;
 using CodeBase.View.Environment;
 using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Battle.Commands;
+using TurnBasedBattle.Model.Core.Data;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
@@ -41,8 +42,8 @@ namespace CodeBase.View.Processes
         private async Task PreparingForBattle(CancellationToken token)
         {
             _arenaFactory.CreateNextArena();
-            var enemy = _characters.AlliesOf(1).First();
-            var player = _characters.AlliesOf(0).First();
+            var enemy = _characters.AlliesOf(Team.Enemy).First();
+            var player = _characters.AlliesOf(Team.Player).First();
 
             var enemyPoint = _arenaFactory.NextEnemyPoint();
             var playerPoint = _arenaFactory.NextPlayerPoint();
