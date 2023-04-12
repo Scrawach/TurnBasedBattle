@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CodeBase.View.Characters.Services
 {
@@ -15,7 +16,17 @@ namespace CodeBase.View.Characters.Services
             set => _gameObjects[id] = value;
         }
 
+        public bool Has(string id) =>
+            _gameObjects.ContainsKey(id);
+
         public void Remove(string id) =>
             _gameObjects.Remove(id);
+
+        public void Destroy(string id)
+        {
+            var view = _gameObjects[id];
+            _gameObjects.Remove(id);
+            Object.Destroy(view);
+        }
     }
 }

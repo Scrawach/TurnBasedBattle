@@ -17,10 +17,10 @@ namespace CodeBase.View.Factory
             _gameObjects = gameObjects;
         }
 
-        public GameObject CreateKnightFrom(IEntity entity)
+        public Character CreateFrom(IEntity entity, Vector3 at)
         {
-            var prefab = _assets.Instantiate<GameObject>(AssetPath.Knight);
-            _gameObjects[entity.ToString()] = prefab.GetComponent<Character>();
+            var prefab = _assets.Instantiate<Character>(AssetPath.Knight, at);
+            _gameObjects[entity.ToString()] = prefab;
             return prefab;
         }
     }

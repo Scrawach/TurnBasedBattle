@@ -1,14 +1,13 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CodeBase.View.Attributes;
+using CodeBase.View.Characters;
 using CodeBase.View.Characters.Services;
 using CodeBase.View.Environment;
+using CodeBase.View.Factory;
 using CodeBase.View.Processes.Abstract;
 using TurnBasedBattle.Model.Battle.Commands;
-using TurnBasedBattle.Model.Core.Data;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
-using TurnBasedBattle.Model.Core.Services.Characters.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
 using UnityEngine;
 
@@ -17,53 +16,63 @@ namespace CodeBase.View.Processes
     [ViewProcess(typeof(StartBattle))]
     public class StartBattleProcess : ViewProcess, IStartEventListener<StartBattle>, IDoneEventListener<StartBattle>
     {
-        private readonly ICharacterProvider _characters;
-        private readonly IGameObjectProvider _gameObjects;
+        private readonly IGameFactory _gameFactory;
         private readonly IArenaFactory _arenaFactory;
+        private readonly IGameObjectProvider _gameObjects;
 
-        private IEntity _previousEnemyEntity;
+        private IEntity _previousEnemy;
 
-        public StartBattleProcess(ICharacterProvider characters, IArenaFactory arenaFactory, IGameObjectProvider gameObjects)
+        public StartBattleProcess(IGameFactory gameFactory, IArenaFactory arenaFactory, IGameObjectProvider gameObjects)
         {
-            _characters = characters;
+            _gameFactory = gameFactory;
             _arenaFactory = arenaFactory;
             _gameObjects = gameObjects;
         }
         
-        public void OnStart(StartBattle args) =>
-            Process(PreparingForBattle);
+        public void OnStart(StartBattle battle) =>
+            Process(token => PreparingForBattle(battle, token));
 
-        public void OnDone(StartBattle args) =>
+        public void OnDone(StartBattle battle) =>
             Process(CleanUpEnvironment);
 
         private async Task CleanUpEnvironment(CancellationToken token) =>
             _arenaFactory.ClearPrevious();
 
-        private async Task PreparingForBattle(CancellationToken token)
+        private async Task PreparingForBattle(StartBattle battle, CancellationToken token = default)
         {
             _arenaFactory.CreateNextArena();
-            var enemy = _characters.AlliesOf(Team.Enemy).First();
-            var player = _characters.AlliesOf(Team.Player).First();
-
-            var enemyPoint = _arenaFactory.NextEnemyPoint();
             var playerPoint = _arenaFactory.NextPlayerPoint();
+            var enemyPoint = _arenaFactory.NextEnemyPoint();
             
-            var fromEnemyToPlayer = (playerPoint - enemyPoint).normalized;
+            var hero = CreatePlayer(battle.Player);
+            CreateEnemy(battle.Enemy, at: enemyPoint, lookAt: playerPoint);
 
-            var enemyView = _gameObjects[enemy.ToString()];
-            enemyView.transform.position = enemyPoint;
-            enemyView.RotateAsync(fromEnemyToPlayer, token);
-            
-            var playerView = _gameObjects[player.ToString()];
             var cameraMoving = MoveCamera(playerPoint, 4f, token);
-            await playerView.MoveAsync(playerPoint, token);
+            await hero.MoveAsync(at: playerPoint, token);
             await cameraMoving;
 
-            if (_previousEnemyEntity != null) 
-                DestroyCharacterView();
-            _previousEnemyEntity = enemy;
+            if (_previousEnemy != null)
+                _gameObjects.Destroy(_previousEnemy.ToString());
+            _previousEnemy = battle.Enemy;
         }
 
+        private Character CreatePlayer(IEntity player)
+        {
+            var id = player.ToString();
+
+            return _gameObjects.Has(id) 
+                ? _gameObjects[id] 
+                : _gameFactory.CreateFrom(player, at: new Vector3(0, 0, -20));
+        }
+
+        private Character CreateEnemy(IEntity enemy, Vector3 at, Vector3 lookAt)
+        {
+            var view = _gameFactory.CreateFrom(enemy, at);
+            var lookAtPlayer = (lookAt - at).normalized;
+            view.transform.forward = lookAtPlayer;
+            return view;
+        }
+        
         private static async Task MoveCamera(Vector3 viewPoint, float speed, CancellationToken token = default)
         {
             var camera = Camera.main;
@@ -83,14 +92,6 @@ namespace CodeBase.View.Processes
             }
 
             camera.transform.position = targetPosition;
-        }
-
-        private void DestroyCharacterView()
-        {
-            var deadId = _previousEnemyEntity.ToString();
-            var view = _gameObjects[deadId];
-            _gameObjects.Remove(deadId);
-            Object.Destroy(view.gameObject);
         }
     }
 }
