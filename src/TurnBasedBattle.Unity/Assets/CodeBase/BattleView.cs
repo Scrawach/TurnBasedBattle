@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace CodeBase
 {
-    public class Battle : IView, IDisposable
+    public class BattleView : IView, IDisposable
     {
         private ViewExecutor _viewExecutor;
             

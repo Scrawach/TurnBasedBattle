@@ -4,15 +4,15 @@ namespace CodeBase
 {
     public class GameBootstrapper : MonoBehaviour
     {
-        private Battle _battle;
+        private BattleView _battleView;
         
         private async void Start()
         {
-            _battle = new Battle();
-            await _battle.Process();
+            _battleView = new BattleView();
+            await _battleView.Process();
         }
 
         private void OnDestroy() =>
-            _battle.Dispose();
+            _battleView.Dispose();
     }
 }
