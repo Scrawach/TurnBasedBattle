@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using CodeBase.View.Attributes;
 using CodeBase.View.Characters.Services;
 using CodeBase.View.Processes.Abstract;
+using JetBrains.Annotations;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.EventBus.Abstract;
 
 namespace CodeBase.View.Processes
 {
+    [UsedImplicitly]
     [ViewProcess(typeof(DieCommand))]
     public class DieProcess : ViewProcess, IStartEventListener<DieCommand>
     {

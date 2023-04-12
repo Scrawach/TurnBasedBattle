@@ -4,12 +4,14 @@ using CodeBase.View.Attributes;
 using CodeBase.View.Characters.Services;
 using CodeBase.View.Factory;
 using CodeBase.View.Processes.Abstract;
+using JetBrains.Annotations;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.Core.Components;
 using TurnBasedBattle.Model.EventBus.Abstract;
 
 namespace CodeBase.View.Processes
 {
+    [UsedImplicitly]
     [ViewProcess(typeof(HealDamage))]
     public class HealDamageProcess : ViewProcess, IStartEventListener<HealDamage>
     {

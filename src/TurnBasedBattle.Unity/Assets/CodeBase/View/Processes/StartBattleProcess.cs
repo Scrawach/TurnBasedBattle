@@ -6,6 +6,7 @@ using CodeBase.View.Characters.Services;
 using CodeBase.View.Environment;
 using CodeBase.View.Factory;
 using CodeBase.View.Processes.Abstract;
+using JetBrains.Annotations;
 using TurnBasedBattle.Model.Battle.Commands;
 using TurnBasedBattle.Model.Core.Entities.Abstract;
 using TurnBasedBattle.Model.EventBus.Abstract;
@@ -13,6 +14,7 @@ using UnityEngine;
 
 namespace CodeBase.View.Processes
 {
+    [UsedImplicitly]
     [ViewProcess(typeof(StartBattle))]
     public class StartBattleProcess : ViewProcess, IStartEventListener<StartBattle>, IDoneEventListener<StartBattle>
     {

@@ -5,12 +5,14 @@ using CodeBase.View.Attributes;
 using CodeBase.View.Characters;
 using CodeBase.View.Characters.Services;
 using CodeBase.View.Processes.Abstract;
+using JetBrains.Annotations;
 using TurnBasedBattle.Model.Commands.Implementations;
 using TurnBasedBattle.Model.EventBus.Abstract;
 using UnityEngine;
 
 namespace CodeBase.View.Processes
 {
+    [UsedImplicitly]
     [ViewProcess(typeof(MeleeHit))]
     public class MeleeHitProcess : ViewProcess, IStartEventListener<MeleeHit>, IDoneEventListener<MeleeHit>
     {
