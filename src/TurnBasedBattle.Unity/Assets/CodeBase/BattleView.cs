@@ -12,6 +12,7 @@ using TurnBasedBattle.Model.Commands.Abstract;
 using TurnBasedBattle.Model.Commands.Services;
 using TurnBasedBattle.Model.Core.Services.Characters;
 using TurnBasedBattle.Model.EventBus;
+using TurnBasedBattle.Model.EventBus.Abstract;
 using UnityEngine;
 
 namespace CodeBase
@@ -25,23 +26,13 @@ namespace CodeBase
             var eventBus = new DebugEventBus(new EventBus<ICommand>(), Debug.unityLogger);
             var characters = new CharacterRegistry();
             
-            var assets = new Assets();
-            var gameObjects = new GameObjectProvider();
-            var factory = new GameFactory(assets, gameObjects);
-            var uiFactory = new UIFactory(assets);
-            var viewProcessBinder = new ViewProcessBinder(eventBus, gameObjects, factory, 
-                uiFactory, new ArenaFactory(assets));
-
             var mechanics = new CoreMechanics(characters);
             var executor = new CommandExecutor(eventBus, mechanics);
-            
-            viewProcessBinder.BindAll();
-            _viewExecutor = viewProcessBinder.Executor();
+
+            _viewExecutor = CreateExecutor(eventBus);
             
             var turnBasedBattle = new TurnBasedBattle.Model.Battle.TurnBasedBattle(executor, mechanics, this);
             await turnBasedBattle.Process();
-            
-            viewProcessBinder.UnbindAll();
             
             Debug.Log("Battle is over!");
         }
@@ -51,5 +42,14 @@ namespace CodeBase
 
         public void Dispose() =>
             _viewExecutor?.Dispose();
+
+        private static ViewExecutor CreateExecutor(IEventBus<ICommand> eventBus) =>
+            new ViewExecutorBuilder()
+                .Bind<IAssets, Assets>()
+                .Bind<IGameObjectProvider, GameObjectProvider>()
+                .Bind<IGameFactory, GameFactory>()
+                .Bind<IUIFactory, UIFactory>()
+                .Bind<IArenaFactory, ArenaFactory>()
+                .Build(eventBus);
     }
 }
